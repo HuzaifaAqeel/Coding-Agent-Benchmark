@@ -1,0 +1,7 @@
+{
+    "name": "fullstack-angular-python-task",
+    "private": true,
+    "devDependencies": {
+        "jest": "^29.0.0"
+    }
+}

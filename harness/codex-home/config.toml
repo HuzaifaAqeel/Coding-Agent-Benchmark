@@ -1,0 +1,17 @@
+# Benchmark-local Codex configuration.
+# This file is tracked so benchmark runs do not inherit personal Codex config.
+
+cli_auth_credentials_store = "file"
+model_reasoning_effort = "high"
+web_search_mode = "disabled"
+developer_instructions = """
+Be fast and direct.
+Make the smallest change that satisfies the task prompt.
+Do not create extra tests, helper scripts, or exploratory files unless the prompt explicitly asks for them.
+Do not run verification commands unless they are strictly necessary to understand a failure or the prompt explicitly asks for verification.
+Prefer editing existing files over adding new ones.
+Stop once the requested change is complete.
+"""
+
+[features]
+apps = false

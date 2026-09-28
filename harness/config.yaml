@@ -1,0 +1,62 @@
+agents:
+  claude-code:
+    command: "claude"
+    args:
+      - "-p"
+      - "{prompt}"
+      - "--output-format"
+      - "json"
+      - "--permission-mode"
+      - "bypassPermissions"
+      - "--effort"
+      - "high"
+      - "--append-system-prompt"
+      - "Be fast and direct. Make the smallest change that satisfies the task prompt. Do not create extra tests, helper scripts, or exploratory files unless the prompt explicitly asks for them. Do not run verification commands unless they are strictly necessary to understand a failure or the prompt explicitly asks for verification. Prefer editing existing files over adding new ones. Stop once the requested change is complete."
+      - "--setting-sources"
+      - "local"
+      - "--strict-mcp-config"
+      - "--no-chrome"
+      - "--disable-slash-commands"
+      - "--no-session-persistence"
+      - "--model"
+      - "{model}"
+    model: "claude-opus-4-6"
+    timeout_seconds: 300
+
+  codex:
+    command: "codex"
+    env:
+      CODEX_HOME: "{root}/harness/codex-home"
+    args:
+      - "exec"
+      - "{prompt}"
+      - "--json"
+      - "--ephemeral"
+      - "--sandbox"
+      - "workspace-write"
+      - "--skip-git-repo-check"
+      - "-m"
+      - "{model}"
+      - "-c"
+      - 'service_tier="fast"'
+    model: "gpt-5.4"
+    timeout_seconds: 300
+
+test_runners:
+  python:
+    command: "python3 -m pytest {test_dir} -v --tb=short"
+    pattern: "tests/"
+  typescript:
+    command: "cd {workspace} && npm install --quiet && npx jest {test_dir} --verbose"
+    pattern: "tests/"
+  angular:
+    command: "npx ng test --watch=false --browsers=ChromeHeadless"
+    pattern: "tests/"
+  c:
+    command: "cd {workspace} && make test"
+    pattern: "tests/"
+  cpp:
+    command: "cd {workspace} && make test"
+    pattern: "tests/"
+
+results_dir: "results"
